@@ -8,8 +8,14 @@
   </head>
   <body>
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-    <div id="map"></div>
-    <script src="/Users/Everett/HackIllinois2016/maps/map.js"></script>
+
+    <div id="floating-panel">
+      <input type="button" value="Toggle visibility" onclick="overlay.toggle();"></input>
+      <input type="button" value="Toggle DOM attachment" onclick="overlay.toggleDOM();"></input>
+    </div> 
+    <div id="map" style="none"></div>
+    <div id="photo" class="container overlap"><h1>Content</h1></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfFVtWXZfzI4mdwk75HZi9askZDQEeVb8&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="/Users/Everett/HackIllinois2016/maps/map.js"></script>
   </body>
 </html>

@@ -39,6 +39,14 @@ html, body {
   font-family: Roboto;
 }
 
+/*
+.overlap {
+  position: relative;
+  z-index:2;
+  background: white;
+}
+*/
+
 #type-selector {
   color: #fff;
   background-color: #4d90fe;
@@ -49,4 +57,17 @@ html, body {
   font-family: Roboto;
   font-size: 13px;
   font-weight: 300;
+}
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
 }

@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style type="text/css">
-html, body { height: 100%; margin: 0; padding: 0; }
-#map { height: 100%; }
-    </style>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/Users/Everett/HackIllinois2016/maps/styles.css"/>
+    <title>TripFace</title>
   </head>
   <body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
     <div id="map"></div>
-    <script type="text/javascript">
-
-var map;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8
-  });
-}
-
-    </script>
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfFVtWXZfzI4mdwk75HZi9askZDQEeVb8&callback=initMap">
-    </script>
+    <script src="/Users/Everett/HackIllinois2016/maps/map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfFVtWXZfzI4mdwk75HZi9askZDQEeVb8&libraries=places&callback=initAutocomplete" async defer></script>
   </body>
 </html>

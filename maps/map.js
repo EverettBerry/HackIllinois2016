@@ -1,4 +1,7 @@
 var overlay;
+var overlay2;
+var overlay3;
+var overlay4;
 
 function initAutocomplete() {
 
@@ -19,7 +22,9 @@ function initAutocomplete() {
   });
 
   var markers = [];
-  // [START region_getplaces]
+
+  var overlays = [];
+
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
   searchBox.addListener('places_changed', function() {
@@ -56,10 +61,27 @@ function initAutocomplete() {
 
       markers.forEach(function(marker) {
         marker.addListener("click", function() {
-          console.log("click");
-          var ph = document.getElementById("photo");
-          ph.style.display = "block";
+          var lat = this.getPosition().lat();
+          var lon = this.getPosition().lng();
+
+          var imgD = 0.05;
+          var xshft = [0.15, 0.15, -0.15, -0.15, 0, 0];
+          var yshft = [0.1, -0.1, 0.1, -0.1, 0.15, -0.15]; 
           
+          for(var i=0; i<6; i++) {
+
+            var bounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(lat - imgD + yshft[i], lon - imgD + xshft[i]),
+                new google.maps.LatLng(lat + imgD + yshft[i], lon + imgD + xshft[i]));
+
+            var srcImage = 'https://developers.google.com/maps/documentation/javascript/';
+            srcImage += 'examples/full/images/talkeetna.png';
+
+
+            overlay = new USGSOverlay(bounds, srcImage, map);
+            overlays.push(overlay);
+          }
+
         });
       });
 
@@ -73,21 +95,7 @@ function initAutocomplete() {
     map.fitBounds(bounds);
   });
 
-  markers.forEach(function(marker) {
-    console.log(marker.location);
-  });
 
-  var bounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.86, 151.21),
-      new google.maps.LatLng(-33.84, 151.24));
-
-  // center: {lat: -33.8688, lng: 151.2195},
-
-  // The photograph is courtesy of the U.S. Geological Survey.
-  var srcImage = 'https://developers.google.com/maps/documentation/javascript/';
-  srcImage += 'examples/full/images/talkeetna.png';
-  // [END region_getplaces]
-  overlay = new USGSOverlay(bounds, srcImage, map);
 }
 
 google.maps.event.addDomListener(window, 'load', initAutocomplete);

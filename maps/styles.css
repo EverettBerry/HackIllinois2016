@@ -39,14 +39,6 @@ html, body {
   font-family: Roboto;
 }
 
-/*
-.overlap {
-  position: relative;
-  z-index:2;
-  background: white;
-}
-*/
-
 #type-selector {
   color: #fff;
   background-color: #4d90fe;

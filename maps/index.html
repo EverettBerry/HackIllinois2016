@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>TripFace</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/Users/Everett/HackIllinois2016/maps/styles.css"/>
-    <title>TripFace</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfFVtWXZfzI4mdwk75HZi9askZDQEeVb8&libraries=places"></script>
+    <script src="/Users/Everett/HackIllinois2016/maps/overlay.js"></script>
+    <script src="/Users/Everett/HackIllinois2016/maps/map.js"></script>
   </head>
   <body>
     <input id="pac-input" class="controls" type="text" placeholder="Search Box">
@@ -14,8 +17,5 @@
       <input type="button" value="Toggle DOM attachment" onclick="overlay.toggleDOM();"></input>
     </div> 
     <div id="map" style="none"></div>
-    <div id="photo" class="container overlap"><h1>Content</h1></div>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBfFVtWXZfzI4mdwk75HZi9askZDQEeVb8&libraries=places&callback=initAutocomplete" async defer></script>
-    <script src="/Users/Everett/HackIllinois2016/maps/map.js"></script>
   </body>
 </html>

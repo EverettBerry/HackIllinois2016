@@ -5,7 +5,7 @@ var overlay4;
 
 function initAutocomplete() {
 
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     center: {lat: -33.8688, lng: 151.2195},
     zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -23,7 +23,7 @@ function initAutocomplete() {
 
   var markers = [];
 
-  var overlays = [];
+  overlays = [];
 
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
@@ -59,41 +59,34 @@ function initAutocomplete() {
         position: place.geometry.location
       }));
 
+
       markers.forEach(function(marker) {
         marker.addListener("click", function() {
+
           var lat = this.getPosition().lat();
           var lon = this.getPosition().lng();
-
-          var imgD = 0.05;
-          var xshft = [0.15, 0.15, -0.15, -0.15, 0, 0];
-          var yshft = [0.1, -0.1, 0.1, -0.1, 0.15, -0.15]; 
           
-          for(var i=0; i<6; i++) {
+          var url = 'https://www.googleapis.com/fusiontables/v2/query';
+          var query = '?sql=SELECT `geometry`, `ECO_CODE` ' +
+            'FROM 1234FzC7FIzNvIL59dHI_m8uE1FQar-AqrINCUuHn ' +
+            'WHERE ST_INTERSECTS(geometry, CIRCLE(LATLNG(' + lat + ', ' + lon + '),1)) ' +
+            'LIMIT 1';
+          var key = '&key=AIzaSyDMDp1YfzUX0rdz-kfts-yJqkyAH5-ILUA';
 
-            var bounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(lat - imgD + yshft[i], lon - imgD + xshft[i]),
-                new google.maps.LatLng(lat + imgD + yshft[i], lon + imgD + xshft[i]));
-
-            var srcImage = 'https://developers.google.com/maps/documentation/javascript/';
-            srcImage += 'examples/full/images/talkeetna.png';
-
-
-            overlay = new USGSOverlay(bounds, srcImage, map);
-            overlays.push(overlay);
-          }
-
-          layer = new google.maps.FusionTablesLayer({
-            query: {
-              select: 'geometry',
-              from: '1234FzC7FIzNvIL59dHI_m8uE1FQar-AqrINCUuHn',
-              where: 'ST_INTERSECTS(geometry, CIRCLE(LATLNG(' + lat + ', ' + lon + '),1))',
-              limit: 1
-            }
+          fetch(url + query + key).then(function(response) {
+            return response.text();
+          }).then(function(text) {
+            var ftlData = JSON.parse(text);
+            console.log(ftlData);
+            ecoCode = ftlData.rows[0][1];
+            console.log(ecoCode);
+            // TODO: layers
+            // layer = new google.maps.FusionTablesLayer(ftlData);
+            // console.log(layer);
+            // layer.setMap(map);
+            displaySpecies(marker);
           });
 
-          console.log(layer);
-          layer.setMap(map);
-          
         });
       });
 
@@ -105,6 +98,37 @@ function initAutocomplete() {
       }
     });
     map.fitBounds(bounds);
+  });
+
+}
+
+function displaySpecies(marker) {
+
+  var lat = marker.getPosition().lat();
+  var lon = marker.getPosition().lng();
+
+  var imgD = 0.05;
+  var xshft = [0.15, 0.15, -0.15, -0.15, 0, 0];
+  var yshft = [0.1, -0.1, 0.1, -0.1, 0.15, -0.15]; 
+
+  var url = 'http://www.tagalong.xyz:8080/species/' + ecoCode;
+  fetch(url).then(function(response) {
+    return response.text()
+  }).then(function(text) {
+    console.log(text);
+    var imgs = JSON.parse(text);
+
+    for(var i=0; i<6; i++) {
+
+      var bounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(lat - imgD + yshft[i], lon - imgD + xshft[i]),
+          new google.maps.LatLng(lat + imgD + yshft[i], lon + imgD + xshft[i]));
+
+      var srcImage = imgs.imgs[i];
+
+      overlay = new USGSOverlay(bounds, srcImage, map);
+      overlays.push(overlay);
+    }
   });
 
 }

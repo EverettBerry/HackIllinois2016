@@ -38,7 +38,7 @@ USGSOverlay.prototype.onAdd = function() {
   var button = document.createElement('button');
   button.type = 'button';
   button.id = 'butt';
-  button.innerHTML = 'Next Photo';
+  button.innerHTML = 'Select';
   div.appendChild(button);
 
   this.div_ = div;

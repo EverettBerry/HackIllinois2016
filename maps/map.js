@@ -82,6 +82,18 @@ function initAutocomplete() {
             overlays.push(overlay);
           }
 
+          layer = new google.maps.FusionTablesLayer({
+            query: {
+              select: 'geometry',
+              from: '1234FzC7FIzNvIL59dHI_m8uE1FQar-AqrINCUuHn',
+              where: 'ST_INTERSECTS(geometry, CIRCLE(LATLNG(' + lat + ', ' + lon + '),1))',
+              limit: 1
+            }
+          });
+
+          console.log(layer);
+          layer.setMap(map);
+          
         });
       });
 
@@ -94,7 +106,6 @@ function initAutocomplete() {
     });
     map.fitBounds(bounds);
   });
-
 
 }
 

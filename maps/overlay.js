@@ -38,7 +38,8 @@ USGSOverlay.prototype.onAdd = function() {
   var button = document.createElement('button');
   button.type = 'button';
   button.id = 'butt';
-  button.innerHTML = 'Next Photo';
+  button.innerHTML = 'Choose';
+  button.onClick = game.score();
   div.appendChild(button);
 
   this.div_ = div;
